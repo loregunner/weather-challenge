@@ -25,11 +25,9 @@ tasks.register("stage") {
     dependsOn("build")
 }
 
-tasks {
-    jar {
-        manifest {
-            attributes["Main-Class"] = "com.example.ApplicationKt"
-        }
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "com.example.ApplicationKt"
     }
 }
 
