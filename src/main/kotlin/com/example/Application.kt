@@ -1,3 +1,5 @@
+package com.example
+
 import io.ktor.server.application.*
 import io.ktor.http.*
 import io.ktor.server.response.*
