@@ -1,4 +1,3 @@
-
 val kotlin_version: String by project
 val logback_version: String by project
 
@@ -22,6 +21,10 @@ repositories {
     mavenCentral()
 }
 
+tasks.register("stage") {
+    dependsOn("build")
+}
+
 tasks {
     jar {
         manifest {
@@ -29,7 +32,6 @@ tasks {
         }
     }
 }
-
 
 dependencies {
     implementation("io.ktor:ktor-server-core-jvm")
