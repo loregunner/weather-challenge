@@ -12,6 +12,8 @@ fun main() {
     val redisUrl = System.getenv("REDIS_URL") ?: "redis://localhost:6379"
     val redisClient = Jedis(redisUrl)
 
+    val port = System.getenv("PORT")?.toInt() ?: 8080
+
     embeddedServer(Netty, port = 8080) {
         install(ContentNegotiation) {
             json()
@@ -20,16 +22,24 @@ fun main() {
             get("/weather/{city}") {
                 val city = call.parameters["city"]
                 if (city != null) {
-                    val cachedWeather = redisClient.get("weather:$city")
-                    if (cachedWeather != null) {
-                        call.respond(HttpStatusCode.OK, mapOf("city" to city, "temperature" to cachedWeather))
-                    } else {
-                        call.respond(HttpStatusCode.NotFound, "Clima no encontrado para la ciudad: $city")
+                    try {
+                        val cachedWeather = redisClient.get("weather:$city")
+                        if (cachedWeather != null) {
+                            call.respond(HttpStatusCode.OK, mapOf("city" to city, "temperature" to cachedWeather))
+                        } else {
+                            call.respond(HttpStatusCode.NotFound, "Clima no encontrado para la ciudad: $city")
+                        }
+                    } catch (e: Exception) {
+                        call.respond(HttpStatusCode.InternalServerError, "Error al acceder a Redis: ${e.message}")
                     }
                 } else {
                     call.respond(HttpStatusCode.BadRequest, "Por favor proporciona una ciudad")
                 }
             }
+        }
+
+        environment.monitor.subscribe(ApplicationStopping) {
+            redisClient.close()
         }
     }.start(wait = true)
 }
