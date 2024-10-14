@@ -9,14 +9,15 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import redis.clients.jedis.Jedis
+import java.net.URI
 
 fun main() {
     val redisUrl = System.getenv("REDIS_URL") ?: "redis://localhost:6379"
-    val redisClient = Jedis(redisUrl)
+    val redisClient = Jedis(URI(redisUrl))
 
     val port = System.getenv("PORT")?.toInt() ?: 8080
 
-    embeddedServer(Netty, port = 8080) {
+    embeddedServer(Netty, port = port) {
         install(ContentNegotiation) {
             json()
         }
