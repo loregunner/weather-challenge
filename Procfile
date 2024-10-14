@@ -1,1 +1,1 @@
-web: java -jar build/libs/weather-challenge-0.0.1.jar
+web: java -jar build/libs/com.example.weather-challenge-0.0.1.jar
