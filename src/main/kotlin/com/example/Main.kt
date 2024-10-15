@@ -1,11 +1,14 @@
 import com.example.WeatherClient
 import kotlinx.coroutines.*
 import redis.clients.jedis.Jedis
+import java.net.URI
 
 fun main() = runBlocking {
     val apiKey = "oBAQSIvmbcvln63OTKLQVF2qjVCbQ7ad"
     val weatherClient = WeatherClient(apiKey)
-    val redisClient = Jedis("localhost", 6379)
+
+    val redisUrl = System.getenv("REDIS_URL") ?: "redis://localhost:6379"
+    val redisClient = Jedis(URI(redisUrl))
 
     val cities = mapOf(
         "Santiago" to Pair(-33.4489, -70.6693),

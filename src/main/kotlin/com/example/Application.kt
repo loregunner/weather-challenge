@@ -13,7 +13,7 @@ import java.net.URI
 
 fun main() {
     embeddedServer(Netty, port = getPort()) {
-        module()  // Llama a la función module aquí
+        module()
     }.start(wait = true)
 }
 
