@@ -26,10 +26,6 @@ fun Application.module() {
     }
 
     routing {
-        get("/ping") {
-            call.respond(HttpStatusCode.OK, "Pong")
-        }
-
         get("/weather/{city}") {
             val city = call.parameters["city"]
             if (city != null) {
