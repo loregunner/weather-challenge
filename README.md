@@ -33,9 +33,10 @@ Este proyecto es una aplicación que obtiene información sobre el clima de dife
  ```bash
 redis-server
    ```
-4.**Ejecutar la aplicación
+4. **Ejecutar la aplicación
  ```bash
 ./gradlew run
    ```
-5.**Obtener el clima
+5. **Obtener el clima
+   
 GET http://localhost:8080/weather/{ciudad}
