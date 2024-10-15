@@ -21,8 +21,8 @@ repositories {
     mavenCentral()
 }
 
-tasks.register("stage") {
-    dependsOn("build")
+tasks {
+    create("stage").dependsOn("installDist")
 }
 
 tasks.withType<Jar> {
