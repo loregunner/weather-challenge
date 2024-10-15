@@ -22,6 +22,10 @@ fun main() {
             json()
         }
         routing {
+            get("/ping") {
+                call.respond(HttpStatusCode.OK, "Pong")
+            }
+
             get("/weather/{city}") {
                 val city = call.parameters["city"]
                 if (city != null) {
@@ -33,6 +37,7 @@ fun main() {
                             call.respond(HttpStatusCode.NotFound, "Clima no encontrado para la ciudad: $city")
                         }
                     } catch (e: Exception) {
+                        println("Error al acceder a Redis: ${e.message}")
                         call.respond(HttpStatusCode.InternalServerError, "Error al acceder a Redis: ${e.message}")
                     }
                 } else {
